@@ -2,7 +2,7 @@
 
 ## F5 BIG-IP ACME Client (Dehydrated) Hook Script
 ## Maintainer: kevin-at-f5-dot-com
-## Version: 20260512-1
+## Version: 20260710-1
 ## Description: ACME client hook script used for staging ACME http-01 challenge response, then cleanup
 
 
@@ -69,6 +69,11 @@ deploy_challenge() {
             else
                 "${DNSAPI}_add" "_acme-challenge.${DOMAIN}" "${TOKEN_VALUE}"
             fi
+
+            ## Wait for DNS propagation before CA validation
+            ## DNS_DELAY is defined in the provider config file (default: 300)
+            f5_process_errors "DEBUG (hook function: deploy_challenge) -- sleeping ${DNS_DELAY} seconds for DNS propagation\n"
+            sleep ${DNS_DELAY}
         fi
 
     elif [[ "${ACME_METHOD}" == "dns-01" && "${DNS_2_PHASE}" == "true" ]]
@@ -139,9 +144,6 @@ clean_challenge() {
 
     elif [[ "${ACME_METHOD}" == "dns-01" && "${DNS_2_PHASE}" == "false" ]]
     then
-        f5_process_errors "DEBUG (hook function: deploy_challenge) -- sleeping $DNS_DELAY seconds\n"
-        sleep $DNS_DELAY
-
         ## DNS-01 method defined --> Call DNS-API script to deploy TXT record
         f5_process_errors "DEBUG (hook function: deploy_challenge) -- dns-01 access-method\n"
         if [[ ! -f "${ACMEDIR}/dnsapi/${DNSAPI}.sh" ]]
