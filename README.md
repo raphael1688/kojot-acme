@@ -4,6 +4,8 @@
 
 *Major Updates May 12, 2026 - See updates section at bottom for changes*
 
+*Minor Updates July 10, 2026*
+
 This project defines a set of utility functions for the [Dehydrated](https://github.com/dehydrated-io/dehydrated) ACMEv2 client, supporting direct integration with F5 BIG-IP, and including additional advanced features:
 
 * Simple installation, configuration, and scheduling
@@ -1113,6 +1115,13 @@ Special thanks to:
 <summary><b>Updates: 2026 May 12</b></summary>
 
 * [Issue 35: Add support for the DNS-01 alias mode](https://github.com/f5devcentral/kojot-acme/issues/35) Add support for dns-01 alias mode validation. See the **Working with ACMEv2 DNS-01 alias mode validation** section in *Additional Configuration Options* for instructions.
+
+</details>
+
+<details>
+<summary><b>Updates: 2026 July 10</b></summary>    
+
+* [Issue 42: DNS_DELAY sleep moved from clean_challenge to deploy_challenge](https://github.com/f5devcentral/kojot-acme/issues/42) Adjusted f5hook.sh to move DNSDELAY to the correct event.
 
 </details>
 
